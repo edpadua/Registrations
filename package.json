@@ -15,7 +15,9 @@
     "react-hook-form": "^7.44.3",
     "react-icons": "^4.9.0",
     "react-international-phone": "^2.2.2",
-    "react-phone-number-input": "^3.2.23"
+    "react-phone-number-input": "^3.2.23",
+    "react-select": "^5.7.3",
+    "react-tailwindcss-select": "^1.8.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

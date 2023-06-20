@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useForm } from 'react-hook-form';
+import { useForm, useController } from 'react-hook-form';
 
 import { PhoneInput } from 'react-international-phone';
 
@@ -8,7 +8,20 @@ import flags from 'react-phone-number-input/flags'
 
 /**import 'react-international-phone/style.css';**/
 
+import Select from "react-tailwindcss-select";
+
 import "./Login.css"
+
+
+
+
+const positionList = [
+    { value: 1, label: 'Desenvolvedor Front-End' },
+    { value: 2, label: 'Desenvolvedor Back-End' },
+    { value: 3, label: 'Desenvolvedor Full-Stack' },
+    { value: 4, label: 'UX/UI' },
+    { value: 5, label: 'Analista de Infraestrutura' }
+];
 
 function LoginForm() {
     const {
@@ -19,12 +32,14 @@ function LoginForm() {
         formState: { errors },
     } = useForm();
 
+    const { field: { value: positionValue, onChange: positionOnChange, ...restPositionField } } = useController({ name: 'position', control });
+
     const onSubmit = (data) => {
         console.log(data);
     };
 
     return (
-        <div className='relative inline-block w-half'>
+        <div className='container mx-auto relative px-40 top-20 pb-40'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -52,7 +67,7 @@ function LoginForm() {
                     </div>
                 </div>
                 <input
-                    className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                     type="text"
                     name="email"
                     {...register("email", {
@@ -87,7 +102,7 @@ function LoginForm() {
                 )} **/}
                 <PhoneInput
 
-                    inputClassName='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                    inputClassName='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                     name="phone"
                     control={control}
                     rules={{
@@ -95,19 +110,19 @@ function LoginForm() {
                         validate: {
                             checkLength: (value) => value.length == 12,
                         }
-                    }} 
-                     placeholder="Digite o número de telefone"
-                    />
-                    {errors.phone?.type === "required" && (
-                        <p className="text-red-500 text-xs italic">O número de telefone é origatório</p>
-                    )}
-                    {errors.phone?.type === "checkLength" && (
-                        <p className="text-red-500 text-xs italic">
-                            O número de ter no mínimo 12 digitos.
-                        </p>
-                    )}
+                    }}
+                    placeholder="Digite o número de telefone"
+                />
+                {errors.phone?.type === "required" && (
+                    <p className="text-red-500 text-xs italic">O número de telefone é origatório</p>
+                )}
+                {errors.phone?.type === "checkLength" && (
+                    <p className="text-red-500 text-xs italic">
+                        O número de ter no mínimo 12 digitos.
+                    </p>
+                )}
                 <input
-                    className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                     type="date"
                     name="dateofbirth"
                     {...register("dateofbirth", {
@@ -120,8 +135,35 @@ function LoginForm() {
                     placeholder='Data de nascimento'
                 />
                 {errors.dateofbirth && <p className="text-red-500 text-xs italic">{errors.dateofbirth.message}</p>}
+                <Select
+                
+                classNames={{
+                    menuButton: ({ isDisabled }) => (
+                        `mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline ${
+                            isDisabled
+                                ? "bg-gray-200"
+                                : "bg-white hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
+                        }`
+                    ),
+                    menu: "absolute z-10 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700",
+                    listItem: ({ isSelected }) => (
+                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
+                            isSelected
+                                ? `text-white bg-blue-500`
+                                : `text-gray-500 hover:bg-blue-100 hover:text-blue-500`
+                        }`
+                    )
+                }}
+                    placeholder="Selecione o cargo pretendito"
+                    isClearable
+                    options={positionList}
+                    value={positionValue ? positionList.find(x => x.value === positionValue) : positionValue}
+                    onChange={option => positionOnChange(option ? option.value : option)}
+                    {...restPositionField}
+                />
+                {errors.position && <p>{errors.position.message}</p>}
                 <input
-                    className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                     type="password"
                     name="password"
                     {...register("password", {
@@ -152,7 +194,7 @@ function LoginForm() {
                 )}
 
                 <input
-                    className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                     type="password"
                     name="confirmPassword"
                     {...register("confirmPassword", {

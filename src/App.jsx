@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import LoginForm from './Components/LoginForm'
+import NavBar from './Components/NavBar'
 
 
 function App() {
-  
+
 
   return (
-    <div className='w-screen h-screen bg-red-300'>
-        <LoginForm/>
-    </div>
+    <>
+      <NavBar/>
+      <div className='w-screen h-screen bg-grey-300'>
+        <LoginForm />
+      </div>
+    </>
+
   )
 }
 
