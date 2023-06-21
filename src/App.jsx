@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <NavBar/>
-      <div className='w-screen h-screen bg-grey-300'>
+      <div className='h-screen bg-grey-300'>
         <LoginForm />
       </div>
     </>
