@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { useState } from 'react';
+
 import { useForm, useController } from 'react-hook-form';
 
 import { PhoneInput } from 'react-international-phone';
@@ -24,6 +26,8 @@ const positionList = [
 ];
 
 function LoginForm() {
+
+
     const {
         register,
         handleSubmit,
@@ -35,8 +39,16 @@ function LoginForm() {
     const { field: { value: positionValue, onChange: positionOnChange, ...restPositionField } } = useController({ name: 'position', control });
 
     const onSubmit = (data) => {
-        console.log(data);
+        console.log("data",data);
     };
+
+
+    function handleChangeFile(e) {
+        console.log("Arquivo PDF", e.target.files);
+        setFile(URL.createObjectURL(e.target.files[0]));
+        e.target.value = null;
+        console.log("Arquivo PDF currículo", e.target.files);
+    }
 
     return (
         <div className='mx-auto relative px-40 top-20 pb-40 block'>
@@ -132,9 +144,9 @@ function LoginForm() {
                         type="date"
                         name="dateofbirth"
                         {...register("dateofbirth", {
-                            required: {
+                             required: {
                                 value: true,
-                                message: "Data de nascimento é obrigatória",
+                                message:"Data de nascimento é obrigatória",
                             },
 
                         })}
@@ -167,10 +179,25 @@ function LoginForm() {
                         onChange={option => positionOnChange(option ? option.value : option)}
                         {...restPositionField}
                     />
-                    {errors.position && <p>{errors.position.message}</p>}
+                    {errors.position && <p className="z-10 pt-1 text-red-500 text-xs italic">{errors.position.message}</p>}
                 </div>
-                <label className='cursor-pointer text-center mb-6 block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' for="arquivo">Upload do Currículo</label>
-                <input id="arquivo" name="arquivo"  {...register("curriculo", { required: true })} type="file" accept='application/pdf' />
+
+                <div className="mb-6">
+                    {watch("curriculo") ? (console.log("watch length",watch("curriculo").length)):(<></>)}
+                    {!watch("curriculo") || watch("curriculo").length === 0 ? (<>
+                        <label className='cursor-pointer text-center mb-6 block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' for="arquivo">Upload do Currículo</label>
+                        <input id="arquivo" name="arquivo"  {...register("curriculo", {
+                             required: {
+                                value: true,
+                                message:"Currículo é obrigatório",
+                            },
+
+                        })} type="file" accept='application/pdf' />
+                        {errors.curriculo && <p className="z-10 pt-1 text-red-500 text-xs italic">{errors.curriculo.message}</p>}
+                    </>
+
+                    ) : (<strong className=''>Currículo baixado: {watch('curriculo')[0].name}</strong>)}
+                </div>
                 <div className="mb-6">
                     <input
                         className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
