@@ -39,7 +39,7 @@ function LoginForm() {
     };
 
     return (
-        <div className='container mx-auto relative px-40 top-20 pb-40 block'>
+        <div className='mx-auto relative px-40 top-20 pb-40 block'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -52,7 +52,7 @@ function LoginForm() {
                             })}
                             placeholder='Digite o seu nome'
                         />
-                        {errors.name && <p className="text-red-500 text-xs italic">{errors.name.message}</p>}
+                        {errors.name && <p className="relative inline z-10 pt-1 text-red-500 text-xs italic">{errors.name.message}</p>}
                     </div>
                     <div class="w-full md:w-1/2 px-3">
                         <input
@@ -63,23 +63,26 @@ function LoginForm() {
                                 required: "Sobrenome é obrigatório",
                             })}
                             placeholder='Digite o seu sobrenome'
-                        />
+                        /> {errors.lastname && <p className="relative inline z-10 pt-1 text-red-500 text-xs italic">{errors.lastname.message}</p>}
+
                     </div>
                 </div>
-                <input
-                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
-                    type="text"
-                    name="email"
-                    {...register("email", {
-                        required: "Email é obrigatório",
-                        pattern: {
-                            value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                            message: "Email invalido."
-                        }
-                    })}
-                    placeholder='Digite o seu e-mail'
-                />
-                {errors.email && <p className="text-red-500 text-xs italic">{errors.email.message}</p>}
+                <div className="mb-6">
+                    <input
+                        className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                        type="text"
+                        name="email"
+                        {...register("email", {
+                            required: "Email é obrigatório",
+                            pattern: {
+                                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                                message: "Email invalido."
+                            }
+                        })}
+                        placeholder='Digite o seu e-mail'
+                    />
+                    {errors.email && <p className="z-10 pt-1 text-red-500 text-xs italic">{errors.email.message}</p>}
+                </div>
                 { /**   <input
                     className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                     type="tel"
@@ -100,118 +103,125 @@ function LoginForm() {
                         O número de ter no mínimo 12 digitos.
                     </p>
                 )} **/}
-                <PhoneInput
+                <div className="mb-6">
+                    <PhoneInput
 
-                    inputClassName='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
-                    name="phone"
-                    control={control}
-                    rules={{
-                        required: "Telefone é obrigatório",
-                        validate: {
-                            checkLength: (value) => value.length == 12,
-                        }
-                    }}
-                    placeholder="Digite o número de telefone"
-                />
-                {errors.phone?.type === "required" && (
-                    <p className="text-red-500 text-xs italic">O número de telefone é origatório</p>
-                )}
-                {errors.phone?.type === "checkLength" && (
-                    <p className="text-red-500 text-xs italic">
-                        O número de ter no mínimo 12 digitos.
-                    </p>
-                )}
-                <input
-                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
-                    type="date"
-                    name="dateofbirth"
-                    {...register("dateofbirth", {
-                        required: {
-                            value: true,
-                            message: "Data de nascimento é obrigatória",
-                        },
-
-                    })}
-                    placeholder='Data de nascimento'
-                />
-                {errors.dateofbirth && <p className="text-red-500 text-xs italic">{errors.dateofbirth.message}</p>}
-                <Select
-                
-                classNames={{
-                    menuButton: ({ isDisabled }) => (
-                        `mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline ${
-                            isDisabled
-                                ? "bg-gray-200"
-                                : "bg-white hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
-                        }`
-                    ),
-                    menu: "absolute z-10 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700",
-                    listItem: ({ isSelected }) => (
-                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
-                            isSelected
-                                ? `text-white bg-blue-500`
-                                : `text-gray-500 hover:bg-blue-100 hover:text-blue-500`
-                        }`
-                    )
-                }}
-                    placeholder="Selecione o cargo pretendito"
-                    isClearable
-                    options={positionList}
-                    value={positionValue ? positionList.find(x => x.value === positionValue) : positionValue}
-                    onChange={option => positionOnChange(option ? option.value : option)}
-                    {...restPositionField}
-                />
-                {errors.position && <p>{errors.position.message}</p>}
-                <label className='cursor-pointer text-center mb-6 block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' for="arquivo">Upload do Currículo</label>
-                <input id="arquivo" name="arquivo"  {...register("curriculo", { required: true })} type="file" accept='application/pdf'/>
-                <input
-                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
-                    type="password"
-                    name="password"
-                    {...register("password", {
-                        required: "A senha é obrigatória",
-                        validate: {
-                            checkLength: (value) => value.length >= 6,
-                            matchPattern: (value) =>
-                                /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/.test(
-                                    value
-                                )
-                        }
-                    })}
-                    placeholder='Digite a sua senha'
-                />
-                {errors.password?.type === "required" && (
-                    <p className="text-red-500 text-xs italic">A senha é obrigatória</p>
-                )}
-                {errors.password?.type === "checkLength" && (
-                    <p className="text-red-500 text-xs italic">
-                        A senha deve ter no mínimo 6 caracteres.
-                    </p>
-                )}
-                {errors.password?.type === "matchPattern" && (
-                    <p className="text-red-500 text-xs italic">
-                        A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula
-                        ,um digito e um caracter especial.
-                    </p>
-                )}
-
-                <input
-                    className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
-                    type="password"
-                    name="confirmPassword"
-                    {...register("confirmPassword", {
-                        required: "Repita a senha",
-                        validate: (value) => {
-                            if (watch("password") != value) {
-                                return "As senhas não são iguais";
+                        inputClassName='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                        name="phone"
+                        control={control}
+                        rules={{
+                            required: "Telefone é obrigatório",
+                            validate: {
+                                checkLength: (value) => value.length == 12,
                             }
-                        }
-                    })}
-                    placeholder='Confirme a sua senha'
-                />
-                {errors.confirmPassword && (
-                    <p className="text-red-500 text-xs italic">{errors.confirmPassword.message}</p>
-                )}
+                        }}
+                        placeholder="Digite o número de telefone"
+                    />
+                    {errors.phone?.type === "required" && (
+                        <p className="z-10 pt-1 text-red-500 text-xs italic">O número de telefone é origatório</p>
+                    )}
+                    {errors.phone?.type === "checkLength" && (
+                        <p className="z-10 pt-1 text-red-500 text-xs italic">
+                            O número de ter no mínimo 12 digitos.
+                        </p>
+                    )}
+                </div>
+                <div className="mb-6">
+                    <input
+                        className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                        type="date"
+                        name="dateofbirth"
+                        {...register("dateofbirth", {
+                            required: {
+                                value: true,
+                                message: "Data de nascimento é obrigatória",
+                            },
+
+                        })}
+                        placeholder='Data de nascimento'
+                    />
+                    {errors.dateofbirth && <p className="z-10 pt-1 text-red-500 text-xs italic">{errors.dateofbirth.message}</p>}
+                </div>
+                <div className="mb-6">
+                    <Select
+
+                        classNames={{
+                            menuButton: ({ isDisabled }) => (
+                                `mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline ${isDisabled
+                                    ? "bg-gray-200"
+                                    : "bg-white hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
+                                }`
+                            ),
+                            menu: "absolute z-10 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700",
+                            listItem: ({ isSelected }) => (
+                                `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${isSelected
+                                    ? `text-white bg-blue-500`
+                                    : `text-gray-500 hover:bg-blue-100 hover:text-blue-500`
+                                }`
+                            )
+                        }}
+                        placeholder="Selecione o cargo pretendito"
+                        isClearable
+                        options={positionList}
+                        value={positionValue ? positionList.find(x => x.value === positionValue) : positionValue}
+                        onChange={option => positionOnChange(option ? option.value : option)}
+                        {...restPositionField}
+                    />
+                    {errors.position && <p>{errors.position.message}</p>}
+                </div>
+                <label className='cursor-pointer text-center mb-6 block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' for="arquivo">Upload do Currículo</label>
+                <input id="arquivo" name="arquivo"  {...register("curriculo", { required: true })} type="file" accept='application/pdf' />
+                <div className="mb-6">
+                    <input
+                        className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                        type="password"
+                        name="password"
+                        {...register("password", {
+                            required: "A senha é obrigatória",
+                            validate: {
+                                checkLength: (value) => value.length >= 6,
+                                matchPattern: (value) =>
+                                    /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/.test(
+                                        value
+                                    )
+                            }
+                        })}
+                        placeholder='Digite a sua senha'
+                    />
+                    {errors.password?.type === "required" && (
+                        <p className="z-10 pt-1 text-red-500 text-xs italic">A senha é obrigatória</p>
+                    )}
+                    {errors.password?.type === "checkLength" && (
+                        <p className="z-10 pt-1 text-red-500 text-xs italic">
+                            A senha deve ter no mínimo 6 caracteres.
+                        </p>
+                    )}
+                    {errors.password?.type === "matchPattern" && (
+                        <p className="z-10 pt-1 text-red-500 text-xs italic">
+                            A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula
+                            ,um digito e um caracter especial.
+                        </p>
+                    )}
+                </div>
+                <div className="mb-6">
+                    <input
+                        className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
+                        type="password"
+                        name="confirmPassword"
+                        {...register("confirmPassword", {
+                            required: "Repita a senha",
+                            validate: (value) => {
+                                if (watch("password") != value) {
+                                    return "As senhas não são iguais";
+                                }
+                            }
+                        })}
+                        placeholder='Confirme a sua senha'
+                    />
+                    {errors.confirmPassword && (
+                        <p className="z-10 pt-1 text-red-500 text-xs italic">{errors.confirmPassword.message}</p>
+                    )}
+                </div>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Registrar</button>
             </form>
         </div>

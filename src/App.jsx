@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <NavBar/>
-      <div className='bg-grey-300'>
+      <div className='w-full  bg-grey-300'>
         <LoginForm />
       </div>
       <Footer/>
