@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import LoginForm from './Components/LoginForm'
 import NavBar from './Components/NavBar'
+import Footer from './Components/Footer'
 
 
 function App() {
@@ -9,9 +10,10 @@ function App() {
   return (
     <>
       <NavBar/>
-      <div className='h-screen bg-grey-300'>
+      <div className='bg-grey-300'>
         <LoginForm />
       </div>
+      <Footer/>
     </>
 
   )

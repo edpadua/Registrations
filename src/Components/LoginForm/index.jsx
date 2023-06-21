@@ -39,10 +39,10 @@ function LoginForm() {
     };
 
     return (
-        <div className='container mx-auto relative px-40 top-20 pb-40'>
+        <div className='container mx-auto relative px-40 top-20 pb-40 block'>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <input
                             className='w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                             type="text"
