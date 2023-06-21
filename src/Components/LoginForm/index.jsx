@@ -162,6 +162,8 @@ function LoginForm() {
                     {...restPositionField}
                 />
                 {errors.position && <p>{errors.position.message}</p>}
+                <label className='cursor-pointer text-center mb-6 block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' for="arquivo">Upload do Currículo</label>
+                <input id="arquivo" name="arquivo"  {...register("curriculo", { required: true })} type="file" accept='application/pdf'/>
                 <input
                     className='mb-6 w-full h-10 px-3 mb-2 text-base text-gray-700 placeholder-gray-600 border rounded-lg focus:shadow-outline'
                     type="password"
