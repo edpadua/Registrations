@@ -22,7 +22,8 @@ const positionList = [
     { value: 2, label: 'Desenvolvedor Back-End' },
     { value: 3, label: 'Desenvolvedor Full-Stack' },
     { value: 4, label: 'UX/UI' },
-    { value: 5, label: 'Analista de Infraestrutura' }
+    { value: 5, label: 'Analista de Infraestrutura' },
+    { value: 6, label: 'Aquiteto de Software' }
 ];
 
 function LoginForm() {
